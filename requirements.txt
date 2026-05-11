@@ -1,0 +1,3 @@
+fastapi     # Framework web para la API REST
+uvicorn     # Servidor web ASGI para ejecutar FastAPI
+pymongo     # Driver oficial de MongoDB para Python
