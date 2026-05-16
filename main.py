@@ -60,6 +60,7 @@ def post_comentario(bar_id: int, datos: dict):
 
 # TODO: Implementar GET /bares/{bar_id}/eventos
 # Retornar todos los eventos de un bar desde la colección 'eventos'
+@app.get('/bares/{bar_id}/eventos')
 def get_eventos(bar_id: int):
     "Retornar todos los eventos de un bar desde la colección 'eventos'"
     coleccion = db["eventos"]
@@ -72,6 +73,7 @@ def get_eventos(bar_id: int):
 # TODO: Implementar POST /bares/{bar_id}/eventos  
 # Insertar un evento en la colección 'eventos'
 # Nota: Agregar 'bar_id' y 'fecha_creacion' al documento antes de guardarlo
+@app.post('/bares/{bar_id}/eventos')
 def post_evento(bar_id: int, datos: dict):
     "Insertar un evento en la colección 'eventos'"
     coleccion = db["eventos"]
