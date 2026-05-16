@@ -42,20 +42,43 @@ def inicio():
 @app.get('/bares/{bar_id}/comentarios')
 def get_comentarios(bar_id: int):
     """Retorna la lista de comentarios asociados a un bar."""
-    comentarios = None  # TODO: Completar la consulta
-    return comentarios
+    comentarios = db["comentarios_bares"]
+    resultados = list(comentarios.find({"bar_id": bar_id}))
+    for r in resultados:
+        r["_id"] = str(r["_id"])
+    return resultados
 
 @app.post('/bares/{bar_id}/comentarios')
 def post_comentario(bar_id: int, datos: dict):
     """Crea un nuevo comentario para un bar específico."""
+    coleccion = db["comentarios_bares"]
     datos['bar_id'] = bar_id
     datos['fecha'] = datetime.now().isoformat()
-    # TODO: Insertar el comentario en la base de datos
-    return {'mensaje': 'Comentario guardado'}
+    resultado = coleccion.insert_one(datos)
+    return {'mensaje': 'Comentario guardado',
+            "id": str(resultado.inserted_id)}
 
 # TODO: Implementar GET /bares/{bar_id}/eventos
 # Retornar todos los eventos de un bar desde la colección 'eventos'
+def get_eventos(bar_id: int):
+    "Retornar todos los eventos de un bar desde la colección 'eventos'"
+    coleccion = db["eventos"]
+    resultados = list(coleccion.find({"bar_id": bar_id}))
+    for r in resultados:
+        r["_id"] = str(r["_id"])
+    return resultados
+
 
 # TODO: Implementar POST /bares/{bar_id}/eventos  
 # Insertar un evento en la colección 'eventos'
 # Nota: Agregar 'bar_id' y 'fecha_creacion' al documento antes de guardarlo
+def post_evento(bar_id: int, datos: dict):
+    "Insertar un evento en la colección 'eventos'"
+    coleccion = db["eventos"]
+    datos["bar_id"] = bar_id
+    datos["fecha_creacion"] = datetime.now().isoformat()
+    resultado = coleccion.insert_one(datos)
+    return{
+        "mensaje": "Evento guardado",
+        "id": str(resultado.inserted_id)
+    }
