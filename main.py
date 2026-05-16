@@ -62,7 +62,7 @@ def post_comentario(bar_id: int, datos: dict):
 # Retornar todos los eventos de un bar desde la colección 'eventos'
 @app.get('/bares/{bar_id}/eventos')
 def get_eventos(bar_id: int):
-    "Retornar todos los eventos de un bar desde la colección 'eventos'"
+    """Retornar todos los eventos de un bar desde la colección 'eventos'"""
     coleccion = db["eventos"]
     resultados = list(coleccion.find({"bar_id": bar_id}))
     for r in resultados:
@@ -75,7 +75,7 @@ def get_eventos(bar_id: int):
 # Nota: Agregar 'bar_id' y 'fecha_creacion' al documento antes de guardarlo
 @app.post('/bares/{bar_id}/eventos')
 def post_evento(bar_id: int, datos: dict):
-    "Insertar un evento en la colección 'eventos'"
+    """Insertar un evento en la colección 'eventos'"""
     coleccion = db["eventos"]
     datos["bar_id"] = bar_id
     datos["fecha_creacion"] = datetime.now().isoformat()
