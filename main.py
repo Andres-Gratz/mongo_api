@@ -125,3 +125,48 @@ def editar_resena(reserva_id: int, datos: dict):
     return {
         "mensaje": "Reseña actualizada"
     }
+    
+@app.get("/analytics/top-hoteles")
+def top_hoteles():
+
+    pipeline = [
+
+        {
+            "$match": {
+                "estado": "publicada"
+            }
+        },
+
+        {
+            "$group": {
+
+                "_id": "$hotelId",
+
+                "promedioCalificacion": {
+                    "$avg": "$calificacion"
+                },
+
+                "totalResenas": {
+                    "$sum": 1
+                }
+
+            }
+        },
+
+        {
+            "$sort": {
+                "promedioCalificacion": -1
+            }
+        },
+
+        {
+            "$limit": 10
+        }
+
+    ]
+
+    resultados = list(
+        db["resenas"].aggregate(pipeline)
+    )
+
+    return resultados
