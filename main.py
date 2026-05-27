@@ -96,3 +96,32 @@ def crear_resena(datos: dict):
         "mensaje": "Reseña creada",
         "id": str(resultado.inserted_id)
     }
+    
+@app.put("/resenas/{reserva_id}")
+def editar_resena(reserva_id: int, datos: dict):
+
+    coleccion = db["resenas"]
+
+    resultado = coleccion.update_one(
+
+        {"reservaId": reserva_id},
+
+        {
+            "$set": {
+                "calificacion": datos["calificacion"],
+                "comentario": datos["comentario"],
+                "fechaActualizacion": datetime.now().isoformat()
+            }
+        }
+
+    )
+
+    if resultado.matched_count == 0:
+
+        return {
+            "error": "No se encontró la reseña"
+        }
+
+    return {
+        "mensaje": "Reseña actualizada"
+    }
