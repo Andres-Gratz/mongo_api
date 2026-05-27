@@ -71,3 +71,28 @@ def crear_resena(hotel_id: int, datos: dict):
         "mensaje": "Reseña creada",
         "id": str(resultado.inserted_id)
     }
+
+@app.post("/resenas")
+def crear_resena(datos: dict):
+
+    coleccion = db["resenas"]
+
+    existente = coleccion.find_one({
+        "reservaId": datos["reservaId"]
+    })
+
+    if existente:
+        return {
+            "error": "La reserva ya tiene una reseña"
+        }
+
+    datos["fechaCreacion"] = datetime.now().isoformat()
+    datos["estado"] = "publicada"
+    datos["destacada"] = False
+
+    resultado = coleccion.insert_one(datos)
+
+    return {
+        "mensaje": "Reseña creada",
+        "id": str(resultado.inserted_id)
+    }
