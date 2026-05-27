@@ -170,3 +170,37 @@ def top_hoteles():
     )
 
     return resultados
+
+@app.delete("/resenas/{reserva_id}")
+def eliminar_resena(reserva_id: int):
+
+    coleccion = db["resenas"]
+
+    resultado = coleccion.update_one(
+
+        {
+            "reservaId": reserva_id
+        },
+
+        {
+            "$set": {
+
+                "estado": "eliminada",
+
+                "fechaEliminacion":
+                    datetime.now().isoformat()
+
+            }
+        }
+        
+    )
+
+    if resultado.matched_count == 0:
+
+        return {
+            "error": "No se encontró la reseña"
+        }
+
+    return {
+        "mensaje": "Reseña eliminada"
+    }
