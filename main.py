@@ -109,7 +109,7 @@ def editar_resena(reserva_id: str, datos: dict):
         {
             "$set": {
                 "calificacion": datos["calificacion"],
-                "comentario": datos["comentario"],
+                "texto": datos["texto"],
                 "fechaActualizacion": datetime.now().isoformat()
             }
         }
