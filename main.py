@@ -98,7 +98,7 @@ def crear_resena(datos: dict):
     }
     
 @app.put("/resenas/{reserva_id}")
-def editar_resena(reserva_id: int, datos: dict):
+def editar_resena(reserva_id: str, datos: dict):
 
     coleccion = db["resenas"]
 
@@ -172,7 +172,7 @@ def top_hoteles():
     return resultados
 
 @app.delete("/resenas/{reserva_id}")
-def eliminar_resena(reserva_id: int):
+def eliminar_resena(reserva_id: str):
 
     coleccion = db["resenas"]
 
